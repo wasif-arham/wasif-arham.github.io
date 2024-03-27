@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<head>
+  <title>Anna Dowlin</title>
+  <style>
+    body {
+      text-align: center;
+      background: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTLfxHOnpx-2twQgFcmjwhMdoZYkcTnmfgLpg&usqp=CAU");
+      background-size: cover;
+      background-position: center;
+      color: green;
+      font-family: tahoma;
+    }
+    p {
+      font-size: 25px;
+    }
+    input {
+      border: 0;
+      padding: 10px;
+      font-size: 20px;
+    }
+    input[type="submit"] {
+      background: blue;
+      color: yellow;
+    }
+  </style>
+</head>
+<body>
+  <img src="https://avatoon.net/wp-content/uploads/2020/04/Outline-Cartoon-Avatar-Simple.jpg">
+  <h1>WASIF ARHAM</h1>
+  <p>Hi! I'm Wasif Arham, a NYC-based marketer. Say Hello!</p>
+  <input id="Name" type="Name" placeholder="Name">
+  <input id="Email" type="Email" placeholder="Email">
+  <input id="submit" type="Submit" placeholder="Submit">
+</body>
+
+<script type="module">
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-app.js";
+  import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-database.js";
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
+
+  // Your web app's Firebase configuration
+  const firebaseConfig = {
+    apiKey: "AIzaSyBh-QwqJgW1Pr2_KnBUemQOEf5JZckMYo0",
+    authDomain: "wasif-arham-----webpage-1.firebaseapp.com",
+    databaseURL: "https://wasif-arham-----webpage-1-default-rtdb.firebaseio.com",
+    projectId: "wasif-arham-----webpage-1",
+    storageBucket: "wasif-arham-----webpage-1.appspot.com",
+    messagingSenderId: "348284874039",
+    appId: "1:348284874039:web:907c62e599dcf9f558beb2"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const db = getDatabase(app);
+  const Name = document.querySelector("#Name") 
+  const Email = document.querySelector("#Email")
+  document.querySelector('#submit').addEventListener('click', Submit)
+  
+function Submit() {
+  const timestamp = buildTimestamp()
+  
+  set(ref(db, timestamp), {
+	  Name: Name.value,
+      email: Email.value,
+  });
+
+  Name.value = ""
+  Email.value = ""
+}
+
+function buildTimestamp() {
+  const now = new Date();
+  let timestamp = now.getFullYear().toString() + "/";
+  //const month = now.toLocaleString('default', { month: 'long' });
+
+  let month = now.getMonth()+1   //add 1 because Javascript uses 0 for January
+  month = month.toString()
+  month = addLeadingZero(month)
+  timestamp += month + "/"; 
+
+  let date = now.getDate().toString()
+  date = addLeadingZero(date)
+  timestamp += date + "/";
+
+  let hours = now.getHours().toString()
+  hours = addLeadingZero(hours)
+  timestamp += hours + ":";
+
+  let minutes = now.getMinutes().toString()
+  minutes = addLeadingZero(minutes)
+  timestamp += minutes + ":";
+
+  let seconds = now.getSeconds().toString()
+  seconds = addLeadingZero(seconds)
+  timestamp += seconds;
+
+  return timestamp
+}
+
+function addLeadingZero(units) {
+	if (units.length < 2) {
+		units = "0" + units
+	}
+	return units
+}
+
+  
+</script>
+  
